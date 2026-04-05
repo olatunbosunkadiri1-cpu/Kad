@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #todoForm { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <form id="todoForm">
+        <input type="text" id="todoInput" placeholder="Add a new task" required>
+        <button type="submit">Add</button>
+    </form>
+    <ul id="todoList"></ul>
+
+    <script>
+        const todoForm = document.getElementById('todoForm');
+        const todoInput = document.getElementById('todoInput');
+        const todoList = document.getElementById('todoList');
+
+        // Load tasks from localStorage
+        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        tasks.forEach(task => addTaskToDOM(task));
+
+        todoForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const task = todoInput.value;
+            addTaskToDOM(task);
+            tasks.push(task);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            todoInput.value = '';
+        });
+
+        function addTaskToDOM(task) {
+            const li = document.createElement('li');
+            li.textContent = task;
+            todoList.appendChild(li);
+        }
+    </script>
+</body>
+</html>
